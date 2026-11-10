@@ -3,8 +3,42 @@
 
 import { join } from 'node:path'
 
-/** Distinct bundle themes, in picker order. Mirrors the ids of `themes/*.css`. */
-export const BUNDLED_THEME_IDS = ['gov', 'monokai-pro', 'one-dark', 'claude']
+/**
+ * Distinct bundled themes, in picker order. Mirrors the ids of `themes/*.css`.
+ *
+ * This fork ships the maintainer's own set instead of the four upstream palettes:
+ * the upstream ones carry the frosted sticky-header patch, `angelina` is the
+ * maintainer's own Dusk Rooftop palette, and the remaining ids are the HeiGeAi
+ * skins ported to one self-contained stylesheet each. See `CREDITS.md`.
+ */
+export const BUNDLED_THEME_IDS = [
+  'gov',
+  'monokai-pro',
+  'one-dark',
+  'claude',
+  'angelina',
+  'bie-agi',
+  'dalao',
+  'deepseek-nv',
+  'deepseek-nv-q',
+  'deepseek-qingchun',
+  'deepspace-dark',
+  'deepspace-light',
+  'dragonball-nimbus',
+  'dragonball-saiyan',
+  'fengge',
+  'genshin-dark',
+  'genshin-light',
+  'liangsheng',
+  'miku',
+  'naruto-naruto',
+  'naruto-sasuke',
+  'neice-dalao',
+  'qq-2007',
+  'qq-2008',
+  'waves-1',
+  'waves-2',
+]
 
 /**
  * Seed generation.
@@ -14,6 +48,10 @@ export const BUNDLED_THEME_IDS = ['gov', 'monokai-pro', 'one-dark', 'claude']
  * the older copy. Files whose id is not bundled are never touched, and
  * `themes/*.css` is documented as managed so a customised palette belongs in a
  * copy under its own name.
+ *
+ * This fork deliberately keeps the generation at 3. A machine that already holds
+ * themes then receives only the bundled ids it is missing, so the added palettes
+ * arrive without rewriting a file the user has edited.
  */
 export const SEED_VERSION = 3
 

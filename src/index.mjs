@@ -17,10 +17,9 @@
  * schema yet. `config` is therefore read defensively.
  */
 
-import { mkdir } from 'node:fs/promises'
-
 import { backgroundsDirectory, themesDirectory } from './themes.mjs'
 import { createTrayRuntime } from './desktop/tray-runtime.mjs'
+import { seedBackgrounds } from './host/backgrounds-store.mjs'
 import { dshHome } from './host/home.mjs'
 import { send } from './host/http.mjs'
 import { createEffortSwitch } from './host/profile.mjs'
@@ -51,11 +50,13 @@ export function apply(ctx, config) {
   ctx.logger.info('dsh-custom-theme: backgrounds directory %s', backgrounds)
   const ready = Promise.all([
     seedThemes(themes).then((ids) => {
-      if (ids.length > 0) ctx.logger.info('dsh-custom-theme: seeded %s', ids.join(', '))
+      if (ids.length > 0) ctx.logger.info('dsh-custom-theme: seeded themes %s', ids.join(', '))
     }),
-    // The background directory holds only user-supplied images, so it is created
-    // but never seeded; the card lists it as empty until something is dropped in.
-    mkdir(backgrounds, { recursive: true }),
+    // The directory also holds uploads from the settings page, so the bundled
+    // images are only added when missing; an upload is never overwritten.
+    seedBackgrounds(backgrounds).then((names) => {
+      if (names.length > 0) ctx.logger.info('dsh-custom-theme: seeded backgrounds %s', names.join(', '))
+    }),
   ]).then(() => {}, (error) => {
     ctx.logger.warn('dsh-custom-theme: preparing directories failed: %s', error.message)
   })

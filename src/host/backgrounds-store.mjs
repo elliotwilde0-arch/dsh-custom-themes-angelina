@@ -6,10 +6,15 @@
  * ever written under a name no existing picture uses, so a request cannot reach
  * outside the directory and an upload cannot overwrite what is already there.
  * Nothing here trusts the uploaded file's own name or type.
+ *
+ * Seeding the bundled pictures is the one write that does not come from a request:
+ * it adds a name only when the directory does not hold it yet, so an upload is
+ * never replaced and a deleted picture comes back on the next start.
  */
 
 import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 import {
   MAX_BACKGROUND_BYTES,
@@ -119,4 +124,41 @@ export async function receiveBackground(req, url, directory) {
   await mkdir(directory, { recursive: true })
   await writeFile(join(directory, name), bytes)
   return { status: 200, body: { name, ...await backgroundListing(directory) } }
+}
+
+/** Seeded images live beside the package root, one level above this module. */
+const SEED_ROOT = fileURLToPath(new URL('../../backgrounds/', import.meta.url))
+
+/**
+ * Copy each bundled image into the background directory when its name is free.
+ *
+ * The directory is shared with uploads, so a name that already holds a picture is
+ * left alone: an upload always wins over the bundled one, and a picture the user
+ * deleted is restored on the next start.
+ * @param directory - Background directory, created when missing.
+ * @returns Names written by this call, for the startup log.
+ */
+export async function seedBackgrounds(directory) {
+  await mkdir(directory, { recursive: true })
+  let entries
+  try {
+    entries = await readdir(SEED_ROOT, { withFileTypes: true })
+  } catch (error) {
+    if (error.code === 'ENOENT') return []
+    throw error
+  }
+  const seeded = []
+  for (const entry of entries) {
+    if (!entry.isFile() || entry.name.startsWith('.') || !isBackgroundName(entry.name)) continue
+    const target = join(directory, entry.name)
+    try {
+      await readFile(target)
+      continue
+    } catch (error) {
+      if (error.code !== 'ENOENT') throw error
+    }
+    await writeFile(target, await readFile(join(SEED_ROOT, entry.name)))
+    seeded.push(entry.name)
+  }
+  return seeded
 }

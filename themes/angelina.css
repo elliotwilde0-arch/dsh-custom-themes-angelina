@@ -1,0 +1,279 @@
+/*
+ * 暮色天台 Dusk Rooftop — 深色/浅色双配色 · 依据 angelina-light-hero.webp 取色
+ *
+ * 取色来源（对原图做区域均值 + 量化聚类）：
+ *   深红饰带 #5c3434 #6c3434  → 品牌色（--dsw-static-deepseek-* 梯子）
+ *   天空/天台 #4e667e #283848 → 背景与描面色（--dsw-static-neutral-bluish-* 梯子）
+ *   外套/发色 #d4ccd0 #8c726d → 暖中性（--dsw-static-neutral-* 梯子）
+ *   地平线蓝光 #a8a8b8 #6c8fb8 → 选区与强调蓝（--dsw-static-blue-* 梯子）
+ *
+ * 结构与 deepseek-nv.css 一致：静态色阶（--dsw-static-*）驱动整套别名令牌，
+ * 品牌三个别名 + 按钮悬浮态单独钉住，末尾保留 <DSH-HEADER-GLASS> 磨砂页头。
+ * 与参考文件唯一的差别是这里成对写出浅色（:root）与深色（:root[data-theme="dark"]），
+ * 外观开关各取一套，随系统/设置切换，而不是单套配色硬套两种模式。
+ */
+
+:root {
+  /* ---- 静态色阶：由亮到暗，供下面的别名令牌引用 ---- */
+  --dsw-static-neutral-bluish-00: #ffffff;
+  --dsw-static-neutral-bluish-50: #f8f9fa;
+  --dsw-static-neutral-bluish-55: #f4f5f7;
+  --dsw-static-neutral-bluish-60: #f0f2f4;
+  --dsw-static-neutral-bluish-75: #e8ebee;
+  --dsw-static-neutral-bluish-90: #dee3e8;
+  --dsw-static-neutral-bluish-100: #d6dce2;
+  --dsw-static-neutral-bluish-150: #cad2da;
+  --dsw-static-neutral-bluish-200: #bcc8d3;
+  --dsw-static-neutral-bluish-300: #a7b6c5;
+  --dsw-static-neutral-bluish-310: #a0b0c1;
+  --dsw-static-neutral-bluish-400: #8a9db2;
+  --dsw-static-neutral-bluish-500: #6986a5;
+  --dsw-static-neutral-bluish-600: #546f8c;
+  --dsw-static-neutral-bluish-700: #405a75;
+  --dsw-static-neutral-bluish-750: #374d64;
+  --dsw-static-neutral-bluish-800: #2e4054;
+  --dsw-static-neutral-bluish-850: #253444;
+  --dsw-static-neutral-bluish-875: #202c39;
+  --dsw-static-neutral-bluish-900: #1a242f;
+  --dsw-static-neutral-bluish-950: #141b24;
+  --dsw-static-neutral-bluish-1000: #0c1116;
+
+  --dsw-static-neutral-00: #ffffff;
+  --dsw-static-neutral-50: #f9f7f6;
+  --dsw-static-neutral-100: #f0eae8;
+  --dsw-static-neutral-150: #e9e3e0;
+  --dsw-static-neutral-200: #e0d8d4;
+  --dsw-static-neutral-250: #d7cdc8;
+  --dsw-static-neutral-300: #cbbdb7;
+  --dsw-static-neutral-400: #b0a09a;
+  --dsw-static-neutral-500: #9a877e;
+  --dsw-static-neutral-550: #8f7a71;
+  --dsw-static-neutral-600: #7d6d66;
+  --dsw-static-neutral-700: #665954;
+  --dsw-static-neutral-800: #4d433f;
+  --dsw-static-neutral-850: #3d3532;
+  --dsw-static-neutral-900: #2c2624;
+  --dsw-static-neutral-1000: #161412;
+
+  --dsw-static-deepseek-50: #fbf2f2;
+  --dsw-static-deepseek-100: #f7e2e3;
+  --dsw-static-deepseek-200: #eac8ca;
+  --dsw-static-deepseek-300: #dca5a9;
+  --dsw-static-deepseek-400: #cd8b8f;
+  --dsw-static-deepseek-450: #c5777d;
+  --dsw-static-deepseek-500: #bb6066;
+  --dsw-static-deepseek-600: #984b50;
+  --dsw-static-deepseek-700: #763a3e;
+  --dsw-static-deepseek-800: #5a2c2f;
+  --dsw-static-deepseek-900: #3c1e20;
+  --dsw-static-deepseek-950: #271315;
+
+  --dsw-static-blue-50: #f3f7fa;
+  --dsw-static-blue-75: #e8f0f6;
+  --dsw-static-blue-100: #dce7f1;
+  --dsw-static-blue-300: #aec5d7;
+  --dsw-static-blue-400: #92b2c9;
+  --dsw-static-blue-450: #83a6c2;
+  --dsw-static-blue-500: #6a95b6;
+  --dsw-static-blue-50p: #f1f6f9;
+  --dsw-static-blue-600: #507ea2;
+  --dsw-static-blue-800: #335269;
+  --dsw-static-blue-900: #243949;
+  --dsw-static-blue-950: #17242e;
+
+  /* ---- 浅色别名：清晨一侧的天空、白外套与红色饰带 ---- */
+  --dsw-alias-bg-base: var(--dsw-static-neutral-bluish-50);
+  --dsw-alias-bg-layer-1: var(--dsw-static-neutral-bluish-00);
+  --dsw-alias-bg-layer-2: var(--dsw-static-neutral-bluish-00);
+  --dsw-alias-bg-layer-3: var(--dsw-static-neutral-bluish-00);
+  --dsw-alias-bg-overlay: var(--dsw-static-neutral-bluish-00);
+  --dsw-alias-bg-module-platform: var(--dsw-static-neutral-bluish-60);
+  --dsw-alias-bg-multi-select: var(--dsw-static-neutral-bluish-75);
+  --dsw-alias-bg-skeleton: #0c11160a;
+  --dsw-alias-bg-document-preview: var(--dsw-static-neutral-bluish-75);
+  --dsw-alias-label-document-preview: var(--dsw-static-neutral-bluish-700);
+  --dsw-alias-bg-document-selection: color-mix(in srgb, var(--dsw-static-blue-500) 34%, transparent);
+
+  --dsw-alias-border-l1: #15233014;
+  --dsw-alias-border-l2: #15233021;
+  --dsw-alias-border-l2-darkmode-thin: #15233014;
+  --dsw-alias-border-l3: #1523302e;
+  --dsw-alias-border-l4: #15233042;
+
+  --dsw-alias-brand-primary: var(--dsw-static-deepseek-600);
+  --dsw-alias-brand-primary-invert: var(--dsw-static-neutral-bluish-1000);
+  --dsw-alias-brand-primary-new-colorprimary-new-color: var(--dsw-static-deepseek-600);
+  --dsw-alias-brand-text: var(--dsw-static-neutral-bluish-00);
+  --dsw-alias-button-contrast-fill: var(--dsw-static-neutral-bluish-1000);
+  --dsw-alias-button-elevated-fill: var(--dsw-static-neutral-bluish-00);
+  --dsw-alias-button-floating-fill: var(--dsw-static-neutral-bluish-50);
+  --dsw-alias-button-floating-hover: var(--dsw-static-neutral-bluish-75);
+  --dsw-alias-button-ghost-active-border: var(--dsw-static-deepseek-300);
+  --dsw-alias-button-ghost-active-fill: var(--dsw-static-deepseek-100);
+  --dsw-alias-button-ghost-active-hover: var(--dsw-static-deepseek-200);
+  --dsw-alias-button-info-fill: var(--dsw-static-deepseek-600);
+  --dsw-alias-button-info-hover: var(--dsw-static-deepseek-700);
+  --dsw-alias-button-primary-dimmed: var(--dsw-static-deepseek-100);
+  --dsw-alias-button-primary-fill: var(--dsw-alias-brand-primary);
+  --dsw-alias-button-primary-hover: var(--dsw-static-deepseek-700);
+  --dsw-alias-onboarding-accent: var(--dsw-static-deepseek-600);
+  --dsw-alias-interactive-bg-active: #bb606633;
+  --dsw-alias-interactive-bg-hover: #1523300f;
+  --dsw-alias-interactive-bg-hover-accent: #bb60661f;
+  --dsw-alias-interactive-bg-hover-solid: var(--dsw-static-neutral-bluish-75);
+
+  --dsw-alias-label-primary: var(--dsw-static-neutral-bluish-1000);
+  --dsw-alias-label-primary-bluish: var(--dsw-static-blue-900);
+  --dsw-alias-label-primary-dimmed: var(--dsw-static-neutral-bluish-950);
+  --dsw-alias-label-primary-foreground: var(--dsw-static-neutral-bluish-00);
+  --dsw-alias-label-primary-inverted: var(--dsw-static-neutral-bluish-00);
+  --dsw-alias-label-secondary: var(--dsw-static-neutral-bluish-700);
+  --dsw-alias-label-tertiary: var(--dsw-static-neutral-bluish-600);
+  --dsw-alias-label-caption: var(--dsw-static-neutral-bluish-500);
+  --dsw-alias-label-dimmed: var(--dsw-static-neutral-bluish-300);
+  --dsw-alias-label-shimmer: color-mix(in srgb, var(--dsw-static-neutral-1000) 30%, transparent);
+  --dsw-alias-label-deep-diving: color-mix(in srgb, var(--dsw-static-deepseek-600) 70%, var(--dsw-static-blue-950));
+  --dsw-alias-label-deep-diving-shimmer: var(--dsw-static-deepseek-300);
+  --dsw-alias-menu-icon: var(--dsw-static-neutral-bluish-800);
+  --dsw-alias-link: var(--dsw-static-blue-800);
+
+  --dsw-alias-markdown-citation: var(--dsw-static-neutral-bluish-60);
+  --dsw-alias-markdown-code-block: var(--dsw-static-neutral-bluish-55);
+  --dsw-alias-markdown-code-block-banner: var(--dsw-static-neutral-bluish-75);
+  --dsw-alias-markdown-code-segment-selected: var(--dsw-static-neutral-bluish-00);
+  --dsw-alias-markdown-code-segment-unselected: var(--dsw-static-neutral-bluish-50);
+  --dsw-alias-markdown-inline-code: var(--dsw-static-neutral-50);
+  --dsw-alias-markdown-placeholder: var(--dsw-static-neutral-bluish-60);
+  --dsw-alias-markdown-tag: var(--dsw-static-neutral-bluish-75);
+
+  --dsw-alias-scrollbar-bg-l1: var(--dsw-static-neutral-200);
+  --dsw-alias-scrollbar-bg-l2: var(--dsw-static-neutral-200);
+  --dsw-alias-scrollbar-hover-l1: var(--dsw-static-neutral-400);
+  --dsw-alias-scrollbar-hover-l2: var(--dsw-static-neutral-400);
+  --dsw-alias-state-business-primary: var(--dsw-static-deepseek-600);
+  --dsw-alias-state-business-tertiary: var(--dsw-static-deepseek-100);
+  --dsw-alias-switch-thumb: var(--dsw-static-neutral-bluish-00);
+  --dsw-alias-toast-bg: var(--dsw-static-neutral-bluish-850);
+  --dsw-alias-toast-label: var(--dsw-static-neutral-bluish-00);
+  --dsw-alias-tooltip-bg: var(--dsw-static-neutral-bluish-900);
+  --dsw-alias-tooltip-key-bg: color-mix(in srgb, var(--dsw-alias-tooltip-bg), white 18%);
+  --dsw-alias-turn-trigger-bg: var(--dsw-alias-markdown-code-block);
+  --dsw-alias-turn-trigger-bg-hover: var(--dsw-alias-interactive-bg-hover);
+
+  --dsw-specific-bubble: var(--dsw-static-deepseek-50);
+  --dsw-specific-bubble-highlight: var(--dsw-static-deepseek-100);
+  --dsw-specific-input-major: var(--dsw-static-neutral-bluish-00);
+  --dsw-specific-login-input: var(--dsw-static-neutral-bluish-50);
+  --dsw-specific-menu: var(--dsw-menu-surface-fill);
+  --dsw-menu-surface-fill: color-mix(in srgb, var(--dsw-static-neutral-bluish-00) 92%, transparent);
+  --dsw-alias-menu-group-header-fill: color-mix(in srgb, var(--dsw-static-neutral-bluish-00) 96%, transparent);
+  --dsw-specific-selector: var(--dsw-static-neutral-bluish-50);
+  --dsw-specific-sidebar-fill: var(--dsw-static-neutral-bluish-55);
+  --dsw-specific-sidebar-nav-item-active-accent: var(--dsw-static-deepseek-300);
+  --dsw-specific-sidebar-nav-item-active: var(--dsw-static-neutral-bluish-75);
+  --dsw-specific-tip: var(--dsw-static-neutral-bluish-60);
+}
+
+:root[data-theme="dark"] {
+  /* ---- 深色别名：入夜后的天台、暮蓝与暖窗光 ---- */
+  --dsw-alias-bg-base: var(--dsw-static-neutral-bluish-950);
+  --dsw-alias-bg-layer-1: var(--dsw-static-neutral-bluish-875);
+  --dsw-alias-bg-layer-2: var(--dsw-static-neutral-bluish-850);
+  --dsw-alias-bg-layer-3: var(--dsw-static-neutral-bluish-800);
+  --dsw-alias-bg-overlay: var(--dsw-static-neutral-bluish-750);
+  --dsw-alias-bg-module-platform: var(--dsw-static-neutral-bluish-800);
+  --dsw-alias-bg-multi-select: var(--dsw-static-neutral-bluish-850);
+  --dsw-alias-bg-skeleton: #ffffff14;
+  --dsw-alias-bg-document-preview: var(--dsw-static-neutral-bluish-1000);
+  --dsw-alias-label-document-preview: var(--dsw-static-neutral-bluish-300);
+  --dsw-alias-bg-document-selection: color-mix(in srgb, var(--dsw-static-blue-400) 45%, transparent);
+
+  --dsw-alias-border-l1: #ffffff10;
+  --dsw-alias-border-l2: #ffffff1f;
+  --dsw-alias-border-l2-darkmode-thin: #ffffff10;
+  --dsw-alias-border-l3: #ffffff2b;
+  --dsw-alias-border-l4: #ffffff36;
+
+  --dsw-alias-brand-primary: var(--dsw-static-deepseek-500);
+  --dsw-alias-brand-primary-invert: var(--dsw-static-neutral-bluish-50);
+  --dsw-alias-brand-primary-new-colorprimary-new-color: var(--dsw-static-deepseek-400);
+  --dsw-alias-brand-text: var(--dsw-static-neutral-bluish-00);
+  --dsw-alias-button-contrast-fill: var(--dsw-static-neutral-bluish-800);
+  --dsw-alias-button-elevated-fill: var(--dsw-static-neutral-bluish-750);
+  --dsw-alias-button-floating-fill: var(--dsw-static-neutral-bluish-850);
+  --dsw-alias-button-floating-hover: var(--dsw-static-neutral-bluish-800);
+  --dsw-alias-button-ghost-active-border: var(--dsw-static-deepseek-400);
+  --dsw-alias-button-ghost-active-fill: var(--dsw-static-deepseek-900);
+  --dsw-alias-button-ghost-active-hover: var(--dsw-static-deepseek-800);
+  --dsw-alias-button-info-fill: var(--dsw-static-deepseek-500);
+  --dsw-alias-button-info-hover: var(--dsw-static-deepseek-400);
+  --dsw-alias-button-primary-dimmed: var(--dsw-static-deepseek-900);
+  --dsw-alias-button-primary-fill: var(--dsw-alias-brand-primary);
+  --dsw-alias-button-primary-hover: var(--dsw-static-deepseek-400);
+  --dsw-alias-onboarding-accent: var(--dsw-static-deepseek-400);
+  --dsw-alias-interactive-bg-active: #ffffff24;
+  --dsw-alias-interactive-bg-hover: #ffffff14;
+  --dsw-alias-interactive-bg-hover-accent: #bb606659;
+  --dsw-alias-interactive-bg-hover-solid: var(--dsw-static-neutral-bluish-800);
+
+  --dsw-alias-label-primary: var(--dsw-static-neutral-bluish-50);
+  --dsw-alias-label-primary-bluish: var(--dsw-static-neutral-bluish-50);
+  --dsw-alias-label-primary-dimmed: var(--dsw-static-neutral-bluish-100);
+  --dsw-alias-label-primary-foreground: var(--dsw-static-neutral-bluish-00);
+  --dsw-alias-label-primary-inverted: var(--dsw-static-neutral-bluish-800);
+  --dsw-alias-label-secondary: var(--dsw-static-neutral-bluish-300);
+  --dsw-alias-label-tertiary: var(--dsw-static-neutral-bluish-400);
+  --dsw-alias-label-caption: var(--dsw-static-neutral-bluish-500);
+  --dsw-alias-label-dimmed: var(--dsw-static-neutral-bluish-700);
+  --dsw-alias-label-shimmer: color-mix(in srgb, var(--dsw-static-neutral-00) 45%, transparent);
+  --dsw-alias-label-deep-diving: color-mix(in srgb, var(--dsw-static-deepseek-450) 55%, var(--dsw-static-neutral-bluish-400));
+  --dsw-alias-label-deep-diving-shimmer: color-mix(in srgb, var(--dsw-static-blue-300) 65%, var(--dsw-static-deepseek-400));
+  --dsw-alias-menu-icon: var(--dsw-alias-label-primary-dimmed);
+  --dsw-alias-link: var(--dsw-static-deepseek-400);
+
+  --dsw-alias-markdown-citation: var(--dsw-static-neutral-bluish-800);
+  --dsw-alias-markdown-code-block: var(--dsw-static-neutral-bluish-900);
+  --dsw-alias-markdown-code-block-banner: var(--dsw-static-neutral-bluish-850);
+  --dsw-alias-markdown-code-segment-selected: var(--dsw-static-neutral-bluish-800);
+  --dsw-alias-markdown-code-segment-unselected: var(--dsw-static-neutral-bluish-900);
+  --dsw-alias-markdown-inline-code: var(--dsw-static-neutral-850);
+  --dsw-alias-markdown-placeholder: var(--dsw-static-neutral-bluish-850);
+  --dsw-alias-markdown-tag: var(--dsw-static-neutral-bluish-850);
+
+  --dsw-alias-scrollbar-bg-l1: var(--dsw-static-neutral-700);
+  --dsw-alias-scrollbar-bg-l2: var(--dsw-static-neutral-700);
+  --dsw-alias-scrollbar-hover-l1: var(--dsw-static-neutral-500);
+  --dsw-alias-scrollbar-hover-l2: var(--dsw-static-neutral-500);
+  --dsw-alias-state-business-primary: var(--dsw-static-deepseek-400);
+  --dsw-alias-state-business-tertiary: var(--dsw-static-deepseek-800);
+  --dsw-alias-switch-thumb: var(--dsw-static-neutral-bluish-400);
+  --dsw-alias-toast-bg: var(--dsw-static-neutral-bluish-750);
+  --dsw-alias-toast-label: var(--dsw-static-neutral-bluish-00);
+  --dsw-alias-tooltip-bg: var(--dsw-static-neutral-bluish-750);
+  --dsw-alias-tooltip-key-bg: color-mix(in srgb, var(--dsw-alias-tooltip-bg), white 18%);
+  --dsw-alias-turn-trigger-bg: var(--dsw-alias-interactive-bg-hover);
+  --dsw-alias-turn-trigger-bg-hover: var(--dsw-alias-interactive-bg-active);
+
+  --dsw-specific-bubble: var(--dsw-static-neutral-bluish-850);
+  --dsw-specific-bubble-highlight: var(--dsw-static-neutral-bluish-750);
+  --dsw-specific-input-major: var(--dsw-static-neutral-bluish-900);
+  --dsw-specific-login-input: var(--dsw-static-neutral-bluish-1000);
+  --dsw-specific-menu: var(--dsw-menu-surface-fill);
+  --dsw-menu-surface-fill: color-mix(in srgb, var(--dsw-static-neutral-bluish-850) 92%, transparent);
+  --dsw-alias-menu-group-header-fill: color-mix(in srgb, var(--dsw-static-neutral-bluish-850) 96%, transparent);
+  --dsw-specific-selector: var(--dsw-static-neutral-bluish-800);
+  --dsw-specific-sidebar-fill: var(--dsw-static-neutral-bluish-900);
+  --dsw-specific-sidebar-nav-item-active-accent: var(--dsw-static-deepseek-500);
+  --dsw-specific-sidebar-nav-item-active: var(--dsw-static-neutral-bluish-750);
+  --dsw-specific-tip: var(--dsw-static-neutral-bluish-800);
+}
+
+/* <DSH-HEADER-GLASS> 插件管理页粘性页头：磨砂 + 底部渐隐，消除实色横带 */
+[class*="_pageBar"][data-natural]::before {
+  background: color-mix(in srgb, var(--dsw-alias-bg-base) 40%, transparent) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(1.12);
+  backdrop-filter: blur(18px) saturate(1.12);
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 58%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 0%, #000 58%, transparent 100%);
+}
+/* </DSH-HEADER-GLASS> */

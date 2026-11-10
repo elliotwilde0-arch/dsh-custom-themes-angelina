@@ -1,0 +1,78 @@
+/* 原神·璃月夜 — 深色 · 移植自 HeiGeAi/deepseek-harness-skin (MIT)
+ * 由 generated/genshin-dark.css 的 --dsw-* 令牌转换而来，供 dsh-custom-theme 读取。 */
+
+:root,
+[data-theme="dark"] {
+  --dsw-alias-brand-primary: #e0b458;
+  --dsw-alias-brand-primary-new-colorprimary-new-color: #e0b458;
+  --dsw-alias-brand-text: #e0b458;
+  --dsw-alias-button-primary-hover: var(--dsw-static-deepseek-600);
+  --dsw-static-blue-100: #e9edfc;
+  --dsw-static-blue-300: #bbc4f0;
+  --dsw-static-blue-400: #99a4e4;
+  --dsw-static-blue-450: #8894de;
+  --dsw-static-blue-50: #f9faff;
+  --dsw-static-blue-500: #7a86d8;
+  --dsw-static-blue-50p: #7a86d8;
+  --dsw-static-blue-600: #5862bd;
+  --dsw-static-blue-75: #f1f3ff;
+  --dsw-static-blue-800: #2d3178;
+  --dsw-static-blue-900: #12133f;
+  --dsw-static-blue-950: #060621;
+  --dsw-static-deepseek-100: #fcf6eb;
+  --dsw-static-deepseek-200: #fbf0dc;
+  --dsw-static-deepseek-300: #f6e3be;
+  --dsw-static-deepseek-400: #eec97d;
+  --dsw-static-deepseek-450: #ebbd5d;
+  --dsw-static-deepseek-50: #fefaf2;
+  --dsw-static-deepseek-500: #e0b458;
+  --dsw-static-deepseek-600: #b1955c;
+  --dsw-static-deepseek-700-delete: #7a602b;
+  --dsw-static-deepseek-800: #524835;
+  --dsw-static-deepseek-900: #312b1f;
+  --dsw-static-neutral-00: #ffffff;
+  --dsw-static-neutral-100: #fffcf4;
+  --dsw-static-neutral-1000: #090a10;
+  --dsw-static-neutral-150: #f9f4ea;
+  --dsw-static-neutral-200: #f1ebe2;
+  --dsw-static-neutral-250: #e9e2d9;
+  --dsw-static-neutral-300: #e1dad1;
+  --dsw-static-neutral-400: #b2a7a2;
+  --dsw-static-neutral-50: #ffffff;
+  --dsw-static-neutral-500: #8f8483;
+  --dsw-static-neutral-550: #73696a;
+  --dsw-static-neutral-600: #60575a;
+  --dsw-static-neutral-700: #463e43;
+  --dsw-static-neutral-800: #322c32;
+  --dsw-static-neutral-850: #2a252b;
+  --dsw-static-neutral-900: #18151c;
+  --dsw-static-neutral-bluish-00: #ffffff;
+  --dsw-static-neutral-bluish-100: #fff4e0;
+  --dsw-static-neutral-bluish-1000: #14162a;
+  --dsw-static-neutral-bluish-150: #fff1db;
+  --dsw-static-neutral-bluish-200: #fde9ce;
+  --dsw-static-neutral-bluish-300: #eed5bf;
+  --dsw-static-neutral-bluish-400: #d0b1a5;
+  --dsw-static-neutral-bluish-50: #ffffff;
+  --dsw-static-neutral-bluish-500: #bb9a96;
+  --dsw-static-neutral-bluish-60: #fffdf7;
+  --dsw-static-neutral-bluish-600: #a28286;
+  --dsw-static-neutral-bluish-700: #7d626f;
+  --dsw-static-neutral-bluish-75: #fffaef;
+  --dsw-static-neutral-bluish-750: #554357;
+  --dsw-static-neutral-bluish-800: #41364b;
+  --dsw-static-neutral-bluish-850: #352d42;
+  --dsw-static-neutral-bluish-875: #29253b;
+  --dsw-static-neutral-bluish-900: #201f33;
+  --dsw-static-neutral-bluish-950: #171a2e;
+}
+
+/* <DSH-HEADER-GLASS> 插件管理页粘性页头：磨砂 + 底部渐隐，消除实色横带 */
+[class*="_pageBar"][data-natural]::before {
+  background: color-mix(in srgb, var(--dsw-alias-bg-base) 40%, transparent) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(1.12);
+  backdrop-filter: blur(18px) saturate(1.12);
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 58%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 0%, #000 58%, transparent 100%);
+}
+/* </DSH-HEADER-GLASS> */

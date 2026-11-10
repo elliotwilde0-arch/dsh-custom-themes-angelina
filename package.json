@@ -1,20 +1,20 @@
 {
   "name": "dsh-custom-theme",
   "version": "0.8.0",
-  "description": "User-editable CSS themes and background images for the DSH Web GUI and Desktop app, with pickers in Settings",
+  "description": "User-editable CSS themes and background images for the DSH Web GUI and Desktop app, with pickers in Settings — personal fork with the Dusk Rooftop palette and a ported skin pack",
   "license": "MIT",
-  "author": "Sparrived",
+  "author": "Sparrived (upstream); personal fork maintained by ElliotWilde",
   "type": "module",
   "main": "./src/index.mjs",
   "icon": "./icon.svg",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Sparrived/dsh-custom-theme.git"
+    "url": "git+https://github.com/elliotwilde0-arch/dsh-rooftop-themes.git"
   },
   "bugs": {
-    "url": "https://github.com/Sparrived/dsh-custom-theme/issues"
+    "url": "https://github.com/elliotwilde0-arch/dsh-rooftop-themes/issues"
   },
-  "homepage": "https://github.com/Sparrived/dsh-custom-theme#readme",
+  "homepage": "https://github.com/elliotwilde0-arch/dsh-rooftop-themes#readme",
   "exports": {
     ".": "./src/index.mjs",
     "./themes": "./src/themes/index.mjs",
@@ -66,6 +66,7 @@
     "src",
     "lib/client.js",
     "themes",
+    "backgrounds",
     "icon.svg",
     "locale",
     "cordis.patch.yml",

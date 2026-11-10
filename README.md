@@ -16,6 +16,8 @@
 
 </div>
 
+> **本仓库是个人定制分支**：在 0.8.0 基础上预置 26 套主题与 20 张背景图，首次启动自动写入本地主题目录；上游项目是 [Sparrived/dsh-custom-theme](https://github.com/Sparrived/dsh-custom-theme)。安装方式见下方[「本定制版」](#本定制版预置-26-套主题--20-张背景)，素材来源见 [CREDITS.md](CREDITS.md)。
+
 ---
 
 ## 🌟 核心特性一览
@@ -206,6 +208,22 @@ DeepSeek Harness 原生仅提供亮色、暗色与跟随系统三种预设，缺
 ---
 
 ## 📦 安装与配置
+
+### 本定制版：预置 26 套主题 + 20 张背景
+
+这是基于 0.8.0 的个人分支，出厂即带 26 套主题——含原创「暮色天台 Dusk Rooftop」（`angelina`）、上游四套主题的磨砂粘性页头加强版，以及 21 套单文件移植皮肤——和 20 张配套背景图。首次启动时，缺失的主题与背景会一次性写入 `$DSH_HOME/themes` 与 `$DSH_HOME/backgrounds`；**已存在的文件（包括你自己改过的）不会被覆盖**，删掉的会补回来。
+
+在 Windows PowerShell 里装（桌面版；装完重启一次 DSH）：
+
+```powershell
+& "$env:LOCALAPPDATA\Programs\DeepSeek Harness\resources\runtime\cli\bin\dsh.cmd" plugin --profile desktop add "github:elliotwilde0-arch/dsh-rooftop-themes"
+```
+
+- 换电脑时只需这一条（无需网盘）：pnpm 会从 GitHub 拉取本仓库并装进当前 profile。
+- 仓库名与包名不同：仓库叫 `dsh-rooftop-themes`，包名仍是 `dsh-custom-theme`——DSH 靠包名识别插件，改包名会让 `cordis.patch.yml` 里的行失效。
+- 想锁定到某个版本（最稳）：在地址后加提交号，例如 `.../dsh-custom-theme#f705e6de`；以后就是可复现的同一份内容。
+- 更新：把 `add` 换成带新提交号的同一条命令即可覆盖旧解析。
+- 若网络访问 GitHub 受限，先给这条命令配好代理，例如 `$env:HTTPS_PROXY='http://127.0.0.1:7897'`。
 
 ### 前置要求
 
