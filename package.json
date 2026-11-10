@@ -9,12 +9,12 @@
   "icon": "./icon.svg",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/elliotwilde0-arch/dsh-rooftop-themes.git"
+    "url": "git+https://github.com/elliotwilde0-arch/dsh-custom-themes-angelina.git"
   },
   "bugs": {
-    "url": "https://github.com/elliotwilde0-arch/dsh-rooftop-themes/issues"
+    "url": "https://github.com/elliotwilde0-arch/dsh-custom-themes-angelina/issues"
   },
-  "homepage": "https://github.com/elliotwilde0-arch/dsh-rooftop-themes#readme",
+  "homepage": "https://github.com/elliotwilde0-arch/dsh-custom-themes-angelina#readme",
   "exports": {
     ".": "./src/index.mjs",
     "./themes": "./src/themes/index.mjs",

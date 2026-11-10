@@ -39,6 +39,62 @@ DeepSeek Harness 原生仅提供亮色、暗色与跟随系统三种预设，缺
 
 ---
 
+## 🖼️ 本定制版素材一览
+
+### 20 张背景图
+
+<div align="center">
+  <img src="docs/images/gallery-backgrounds.jpg" alt="20 张背景图总览" width="920" />
+</div>
+
+文件名去掉 `-bg.webp` 就是它配套的主题 id。选中主题时「整体」背景会自动切到这张图；想固定自己的图，在「整体」区域取消「跟随主题」即可，单独换背景的功能照旧。
+
+### 26 套主题
+
+<div align="center">
+  <img src="docs/images/gallery-themes.png" alt="26 套主题配色总览" width="920" />
+</div>
+
+卡片底色是该主题的界面底色，底部色条是它的品牌色。`gov`、`monokai-pro`、`one-dark`、`claude`、`qq-2007`、`qq-2008` 没有配套背景图，切到它们时「整体」背景会清空为纯色。
+
+<details>
+<summary><b>展开：26 套主题清单</b></summary>
+
+| 主题 id | 名称 | 来源 | 配套背景 |
+| :--- | :--- | :--- | :--- |
+| `angelina` | 暮色天台 Dusk Rooftop | **原创** | `angelina-light-hero.webp` |
+| `bie-agi` | 别影响 AGI | 移植 | `bie-agi-bg.webp` |
+| `claude` | Claude | 上游内置 · 磨砂页头 | — |
+| `dalao` | 大佬 | 移植 | `dalao-bg.webp` |
+| `deepseek-nv` | DeepSeek 娘 | 移植 | `deepseek-nv-bg.webp` |
+| `deepseek-nv-q` | DeepSeek 娘 · Q 版 | 移植 | `deepseek-nv-q-bg.webp` |
+| `deepseek-qingchun` | DeepSeek 青春版 | 移植 | `deepseek-qingchun-bg.webp` |
+| `deepspace-dark` | 恋与深空 · 深色 | 移植 | `deepspace-dark-bg.webp` |
+| `deepspace-light` | 恋与深空 · 浅色 | 移植 | `deepspace-light-bg.webp` |
+| `dragonball-nimbus` | 龙珠 · 筋斗云 | 移植 | `dragonball-nimbus-bg.webp` |
+| `dragonball-saiyan` | 龙珠 · 赛亚人 | 移植 | `dragonball-saiyan-bg.webp` |
+| `fengge` | 峰哥骑鲸 | 移植 | `fengge-bg.webp` |
+| `genshin-dark` | 原神 · 深色 | 移植 | `genshin-dark-bg.webp` |
+| `genshin-light` | 原神 · 浅色 | 移植 | `genshin-light-bg.webp` |
+| `gov` | 政务主题 · 宣纸 | 上游内置 · 磨砂页头 | — |
+| `liangsheng` | 梁圣 | 移植 | `liangsheng-bg.webp` |
+| `miku` | 初音未来 | 移植 | `miku-bg.webp` |
+| `monokai-pro` | Monokai Pro | 上游内置 · 磨砂页头 | — |
+| `naruto-naruto` | 火影 · 鸣人 | 移植 | `naruto-naruto-bg.webp` |
+| `naruto-sasuke` | 火影 · 佐助 | 移植 | `naruto-sasuke-bg.webp` |
+| `neice-dalao` | 内测大佬 | 移植 | `neice-dalao-bg.webp` |
+| `one-dark` | Atom One Dark | 上游内置 · 磨砂页头 | — |
+| `qq-2007` | QQ 2007 | 移植 | — |
+| `qq-2008` | QQ 2008 | 移植 | — |
+| `waves-1` | 鸣潮 · 一 | 移植 | `waves-1-bg.webp` |
+| `waves-2` | 鸣潮 · 二 | 移植 | `waves-2-bg.webp` |
+
+</details>
+
+> 21 套移植皮肤来自 [HeiGeAi/deepseek-harness-skin](https://github.com/HeiGeAi/deepseek-harness-skin)（MIT），署名与授权见 [CREDITS.md](CREDITS.md)。
+
+---
+
 ## 📸 功能图解与视觉体验
 
 ### 1. 现代化设置面板与主题切换
@@ -217,12 +273,12 @@ DeepSeek Harness 原生仅提供亮色、暗色与跟随系统三种预设，缺
 在 Windows PowerShell 里装（桌面版；装完重启一次 DSH）：
 
 ```powershell
-& "$env:LOCALAPPDATA\Programs\DeepSeek Harness\resources\runtime\cli\bin\dsh.cmd" plugin --profile desktop add "github:elliotwilde0-arch/dsh-rooftop-themes"
+& "$env:LOCALAPPDATA\Programs\DeepSeek Harness\resources\runtime\cli\bin\dsh.cmd" plugin --profile desktop add "github:elliotwilde0-arch/dsh-custom-themes-angelina"
 ```
 
 - 换电脑时只需这一条（无需网盘）：pnpm 会从 GitHub 拉取本仓库并装进当前 profile。
-- 仓库名与包名不同：仓库叫 `dsh-rooftop-themes`，包名仍是 `dsh-custom-theme`——DSH 靠包名识别插件，改包名会让 `cordis.patch.yml` 里的行失效。
-- 想锁定到某个版本（最稳）：在地址后加提交号，例如 `.../dsh-custom-theme#f705e6de`；以后就是可复现的同一份内容。
+- 仓库名与包名不同：仓库叫 `dsh-custom-themes-angelina`，包名仍是 `dsh-custom-theme`——DSH 靠包名识别插件，改包名会让 `cordis.patch.yml` 里的行失效。
+- 想锁定到某个版本（最稳）：在地址后加 tag 或提交号，例如 `...#v0.8.0-rooftop.2`；以后就是可复现的同一份内容。
 - 更新：把 `add` 换成带新提交号的同一条命令即可覆盖旧解析。
 - 若网络访问 GitHub 受限，先给这条命令配好代理，例如 `$env:HTTPS_PROXY='http://127.0.0.1:7897'`。
 

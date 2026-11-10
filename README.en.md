@@ -16,6 +16,8 @@ User CSS Themes · Multi-Zone Wallpaper Workbench · Cosmic Particle Reasoning S
 
 </div>
 
+> **This is a personal fork**: 26 themes and 20 wallpapers are bundled on top of 0.8.0 and written into the local theme/background folders on first launch. Switching a theme also repaints the Global wallpaper — untick **Follow theme** in the background card to pin your own. Upstream project: [Sparrived/dsh-custom-theme](https://github.com/Sparrived/dsh-custom-theme). Install instructions in [Installation & Setup](#-installation--setup); asset credits in [CREDITS.md](CREDITS.md).
+
 ---
 
 ## 🌟 Overview
@@ -34,6 +36,62 @@ DeepSeek Harness natively provides only three fixed appearances: Light, Dark, an
 - 🔍 **Context Injections & Auto-Expand Modes**: Restores visibility for folded prompt/rule/skill injections; offers smart reasoning disclosure modes (`streaming`, `keep`, `always`, `off`).
 - 🔥 **Start-Page Usage Heatmap**: Shows the last 26 weeks of local session usage between the greeting and the composer, with sessions, total tokens, active days, peak hour, and top model; switch between All / 30d / 7d or turn it off independently.
 - ⚡ **Zero External Dependencies · Ultra-Lightweight**: Built entirely with native platform APIs, backed by 278 automated unit and Chromium CDP browser smoke tests for jitter-free rendering.
+
+---
+
+## 🖼️ This fork: 26 themes · 20 wallpapers
+
+### The 20 wallpapers
+
+<div align="center">
+  <img src="docs/images/gallery-backgrounds.jpg" alt="All 20 bundled wallpapers" width="920" />
+</div>
+
+The file name minus `-bg.webp` is the theme id it ships with. Picking that theme repaints the Global zone with this picture; untick **Follow theme** in the Global card to pin your own — ad-hoc wallpaper switching keeps working either way.
+
+### The 26 themes
+
+<div align="center">
+  <img src="docs/images/gallery-themes.png" alt="All 26 bundled themes" width="920" />
+</div>
+
+Each card uses the theme's surface colour, with its brand colour as the bottom strip. `gov`, `monokai-pro`, `one-dark`, `claude`, `qq-2007` and `qq-2008` ship without a wallpaper; picking them clears the Global wallpaper to a flat colour.
+
+<details>
+<summary><b>All 26 themes</b></summary>
+
+| Theme id | Name | Source | Wallpaper |
+| :--- | :--- | :--- | :--- |
+| `angelina` | 暮色天台 Dusk Rooftop | **Original** | `angelina-light-hero.webp` |
+| `bie-agi` | 别影响 AGI | Port | `bie-agi-bg.webp` |
+| `claude` | Claude | Bundled upstream · frosted header | — |
+| `dalao` | 大佬 | Port | `dalao-bg.webp` |
+| `deepseek-nv` | DeepSeek 娘 | Port | `deepseek-nv-bg.webp` |
+| `deepseek-nv-q` | DeepSeek 娘 · chibi | Port | `deepseek-nv-q-bg.webp` |
+| `deepseek-qingchun` | DeepSeek 青春版 | Port | `deepseek-qingchun-bg.webp` |
+| `deepspace-dark` | 恋与深空 · dark | Port | `deepspace-dark-bg.webp` |
+| `deepspace-light` | 恋与深空 · light | Port | `deepspace-light-bg.webp` |
+| `dragonball-nimbus` | 龙珠 · Nimbus | Port | `dragonball-nimbus-bg.webp` |
+| `dragonball-saiyan` | 龙珠 · Saiyan | Port | `dragonball-saiyan-bg.webp` |
+| `fengge` | 峰哥骑鲸 | Port | `fengge-bg.webp` |
+| `genshin-dark` | 原神 · dark | Port | `genshin-dark-bg.webp` |
+| `genshin-light` | 原神 · light | Port | `genshin-light-bg.webp` |
+| `gov` | 政务主题 · rice paper | Bundled upstream · frosted header | — |
+| `liangsheng` | 梁圣 | Port | `liangsheng-bg.webp` |
+| `miku` | 初音未来 | Port | `miku-bg.webp` |
+| `monokai-pro` | Monokai Pro | Bundled upstream · frosted header | — |
+| `naruto-naruto` | 火影 · Naruto | Port | `naruto-naruto-bg.webp` |
+| `naruto-sasuke` | 火影 · Sasuke | Port | `naruto-sasuke-bg.webp` |
+| `neice-dalao` | 内测大佬 | Port | `neice-dalao-bg.webp` |
+| `one-dark` | Atom One Dark | Bundled upstream · frosted header | — |
+| `qq-2007` | QQ 2007 | Port | — |
+| `qq-2008` | QQ 2008 | Port | — |
+| `waves-1` | 鸣潮 · I | Port | `waves-1-bg.webp` |
+| `waves-2` | 鸣潮 · II | Port | `waves-2-bg.webp` |
+
+</details>
+
+> The 21 ported skins come from [HeiGeAi/deepseek-harness-skin](https://github.com/HeiGeAi/deepseek-harness-skin) (MIT); attribution and licence details in [CREDITS.md](CREDITS.md).
 
 ---
 
@@ -207,6 +265,17 @@ Settings → Theme & background → Heatmap turns the card off on its own; when 
 ---
 
 ## 📦 Installation & Setup
+
+### This fork: install straight from GitHub
+
+```powershell
+& "$env:LOCALAPPDATA\Programs\DeepSeek Harness\resources\runtime\cli\bin\dsh.cmd" plugin --profile desktop add "github:elliotwilde0-arch/dsh-custom-themes-angelina"
+```
+
+- One command, no zip or USB stick: pnpm fetches this repo into the active profile.
+- Repo name ≠ package name: the repo is `dsh-custom-themes-angelina`, the package is still `dsh-custom-theme` — DSH identifies plugins by package name, and renaming it would break the rows in `cordis.patch.yml`.
+- Pin a version with a tag or commit, e.g. `github:elliotwilde0-arch/dsh-custom-themes-angelina#v0.8.0-rooftop.2`.
+- Behind a proxy, set `$env:HTTPS_PROXY='http://127.0.0.1:7897'` before running it.
 
 ### Requirements
 
