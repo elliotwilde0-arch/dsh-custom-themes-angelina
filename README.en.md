@@ -47,7 +47,7 @@ DeepSeek Harness natively provides only three fixed appearances: Light, Dark, an
   <img src="docs/images/gallery-backgrounds.jpg" alt="All 20 bundled wallpapers" width="920" />
 </div>
 
-The file name minus `-bg.webp` is the theme id it ships with. Picking that theme repaints the Global zone with this picture; untick **Follow theme** in the Global card to pin your own — ad-hoc wallpaper switching keeps working either way.
+The file name minus `-bg.webp` is the theme id it ships with. Picking that theme repaints the Global zone with this picture; untick **Follow theme** in the Global card to pin your own — ad-hoc wallpaper switching keeps working either way. `angelina-light-hero.webp` is not original to this project: it comes from [bilbillm/deepseek-harness-angelina-themes](https://github.com/bilbillm/deepseek-harness-angelina-themes) (`src/assets/`), depicts Angelina from Arknights as unofficial fan art, and that project states its MIT licence does not cover the artwork — see [CREDITS.md](CREDITS.md).
 
 ### The 26 themes
 
@@ -62,7 +62,7 @@ Each card uses the theme's surface colour, with its brand colour as the bottom s
 
 | Theme id | Name | Source | Wallpaper |
 | :--- | :--- | :--- | :--- |
-| `angelina` | 暮色天台 Dusk Rooftop | **Original** | `angelina-light-hero.webp` |
+| `angelina` | 暮色天台 Dusk Rooftop | Own palette · ported art | `angelina-light-hero.webp` |
 | `bie-agi` | 别影响 AGI | Port | `bie-agi-bg.webp` |
 | `claude` | Claude | Bundled upstream · frosted header | — |
 | `dalao` | 大佬 | Port | `dalao-bg.webp` |
@@ -274,7 +274,7 @@ Settings → Theme & background → Heatmap turns the card off on its own; when 
 
 - One command, no zip or USB stick: pnpm fetches this repo into the active profile.
 - Repo name ≠ package name: the repo is `dsh-custom-themes-angelina`, the package is still `dsh-custom-theme` — DSH identifies plugins by package name, and renaming it would break the rows in `cordis.patch.yml`.
-- Pin a version with a tag or commit, e.g. `github:elliotwilde0-arch/dsh-custom-themes-angelina#v0.8.0-rooftop.2`.
+- Pin a version with a tag or commit, e.g. `github:elliotwilde0-arch/dsh-custom-themes-angelina#v0.8.0-rooftop.3`.
 - Behind a proxy, set `$env:HTTPS_PROXY='http://127.0.0.1:7897'` before running it.
 
 ### Requirements

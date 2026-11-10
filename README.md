@@ -47,7 +47,7 @@ DeepSeek Harness 原生仅提供亮色、暗色与跟随系统三种预设，缺
   <img src="docs/images/gallery-backgrounds.jpg" alt="20 张背景图总览" width="920" />
 </div>
 
-文件名去掉 `-bg.webp` 就是它配套的主题 id。选中主题时「整体」背景会自动切到这张图；想固定自己的图，在「整体」区域取消「跟随主题」即可，单独换背景的功能照旧。
+文件名去掉 `-bg.webp` 就是它配套的主题 id。选中主题时「整体」背景会自动切到这张图；想固定自己的图，在「整体」区域取消「跟随主题」即可，单独换背景的功能照旧。`angelina-light-hero.webp` 并非本项目原创，取自 [bilbillm/deepseek-harness-angelina-themes](https://github.com/bilbillm/deepseek-harness-angelina-themes) 的 `src/assets/`，角色为《明日方舟》安洁莉娜的非官方同人素材，原项目明确其 MIT 许可不覆盖图片——详见 [CREDITS.md](CREDITS.md)。
 
 ### 26 套主题
 
@@ -62,7 +62,7 @@ DeepSeek Harness 原生仅提供亮色、暗色与跟随系统三种预设，缺
 
 | 主题 id | 名称 | 来源 | 配套背景 |
 | :--- | :--- | :--- | :--- |
-| `angelina` | 暮色天台 Dusk Rooftop | **原创** | `angelina-light-hero.webp` |
+| `angelina` | 暮色天台 Dusk Rooftop | 自制配色 · 图取自社区项目 | `angelina-light-hero.webp` |
 | `bie-agi` | 别影响 AGI | 移植 | `bie-agi-bg.webp` |
 | `claude` | Claude | 上游内置 · 磨砂页头 | — |
 | `dalao` | 大佬 | 移植 | `dalao-bg.webp` |
@@ -268,7 +268,7 @@ DeepSeek Harness 原生仅提供亮色、暗色与跟随系统三种预设，缺
 
 ### 本定制版：预置 26 套主题 + 20 张背景
 
-这是基于 0.8.0 的个人分支，出厂即带 26 套主题——含原创「暮色天台 Dusk Rooftop」（`angelina`）、上游四套主题的磨砂粘性页头加强版，以及 21 套单文件移植皮肤——和 20 张配套背景图。首次启动时，缺失的主题与背景会一次性写入 `$DSH_HOME/themes` 与 `$DSH_HOME/backgrounds`；**已存在的文件（包括你自己改过的）不会被覆盖**，删掉的会补回来。
+这是基于 0.8.0 的个人分支，出厂即带 26 套主题——含自制配色「暮色天台 Dusk Rooftop」（`angelina`，配图取自社区同人素材）、上游四套主题的磨砂粘性页头加强版，以及 21 套单文件移植皮肤——和 20 张配套背景图。首次启动时，缺失的主题与背景会一次性写入 `$DSH_HOME/themes` 与 `$DSH_HOME/backgrounds`；**已存在的文件（包括你自己改过的）不会被覆盖**，删掉的会补回来。
 
 在 Windows PowerShell 里装（桌面版；装完重启一次 DSH）：
 
@@ -278,7 +278,7 @@ DeepSeek Harness 原生仅提供亮色、暗色与跟随系统三种预设，缺
 
 - 换电脑时只需这一条（无需网盘）：pnpm 会从 GitHub 拉取本仓库并装进当前 profile。
 - 仓库名与包名不同：仓库叫 `dsh-custom-themes-angelina`，包名仍是 `dsh-custom-theme`——DSH 靠包名识别插件，改包名会让 `cordis.patch.yml` 里的行失效。
-- 想锁定到某个版本（最稳）：在地址后加 tag 或提交号，例如 `...#v0.8.0-rooftop.2`；以后就是可复现的同一份内容。
+- 想锁定到某个版本（最稳）：在地址后加 tag 或提交号，例如 `...#v0.8.0-rooftop.3`；以后就是可复现的同一份内容。
 - 更新：把 `add` 换成带新提交号的同一条命令即可覆盖旧解析。
 - 若网络访问 GitHub 受限，先给这条命令配好代理，例如 `$env:HTTPS_PROXY='http://127.0.0.1:7897'`。
 
