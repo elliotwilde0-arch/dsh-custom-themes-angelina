@@ -16,6 +16,9 @@ function readSavedBackgrounds() {
       if (stored === null || typeof stored !== 'object') continue
       const config = settings[zone.id]
       if (typeof stored.name === 'string') config.name = stored.name
+      // A store written before themes brought pictures has no flag; those zones
+      // follow the theme, which is what the default says.
+      if (typeof stored.follow === 'boolean') config.follow = stored.follow
       const opacity = Number(stored.opacity)
       if (Number.isFinite(opacity)) config.opacity = Math.min(OPACITY_MAX, Math.max(OPACITY_MIN, opacity))
       const panelOpacity = Number(stored.panelOpacity)
@@ -33,10 +36,18 @@ function readSavedBackgrounds() {
   return settings
 }
 
-/** Persist the per-zone settings; an all-empty set removes the entry. */
+/**
+ * Persist the per-zone settings; an all-empty set removes the entry.
+ *
+ * A zone that was pinned to the plain surface is not "empty": the pin is the
+ * user saying they do not want the theme's picture there, so it must survive a
+ * reload instead of being dropped together with the name.
+ */
 function writeSavedBackgrounds(settings) {
   try {
-    if (ZONES.every((zone) => settings[zone.id].name === '')) {
+    const nothingToRemember = ZONES.every((zone) => settings[zone.id].name === ''
+      && settings[zone.id].follow !== false)
+    if (nothingToRemember) {
       window.localStorage.removeItem(STORAGE_KEY_BACKGROUNDS)
     } else {
       window.localStorage.setItem(STORAGE_KEY_BACKGROUNDS, JSON.stringify(settings))

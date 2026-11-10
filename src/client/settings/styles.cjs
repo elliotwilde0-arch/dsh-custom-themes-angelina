@@ -453,6 +453,10 @@ const PAGE_CSS = `
 .dct-zone-tab strong { font-size: 13px; font-weight: 500; }
 .dct-zone-tab small { max-width: 100%; overflow: hidden; font-size: 11px; color: var(--dsw-alias-label-caption, inherit); text-overflow: ellipsis; white-space: nowrap; }
 .dct-zone-tab.has-image strong::after { content: "●"; margin-left: 5px; font-size: 8px; vertical-align: middle; color: var(--dsw-alias-brand-primary, #4078c0); }
+/* Theme wallpaper: the switch that keeps a zone in step with the selected theme. */
+.dct-follow { display: flex; align-items: center; gap: 6px; margin-top: 8px; font-size: 12px; color: var(--dsw-alias-label-secondary, inherit); cursor: pointer; }
+.dct-follow-input { margin: 0; accent-color: var(--dsw-alias-brand-primary, #4078c0); cursor: pointer; }
+.dct-follow-input:disabled { cursor: default; }
 
 /* Schematic preview */
 .dct-schematic {

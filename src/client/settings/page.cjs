@@ -6,7 +6,7 @@ const { icon: svgIcon } = require('../shared/icons.cjs')
 const React = require('react')
 
 module.exports = function (deps) {
-  const { UpdateRow, applyAppearance, applyBackgroundsWhenReady, applyBranding, applyTheme, ctx, effortLevelsRow, injectionSeamOf, listBackgrounds, listThemes, setInjectionSettings, setWorkingSettings, signal, themeChangeListeners, uploadBackground } = deps
+  const { UpdateRow, applyAppearance, applyBackgroundsWhenReady, applyBranding, applyTheme, ctx, effortLevelsRow, injectionSeamOf, listBackgrounds, listThemes, setInjectionSettings, setWorkingSettings, signal, themeChangeListeners, themePicture, uploadBackground } = deps
 
   const { APPEARANCE_KEY, LINE_GAPS, STREAM_FADE_DURATION_MAX, STREAM_FADE_DURATION_MIN, STREAM_FADE_DURATION_STEP, STREAM_FADE_INK_MAX, STREAM_FADE_INK_MIN, readSavedAppearance } = require('../appearance/constants.cjs')
   const { readSavedBackgrounds, writeSavedBackgrounds } = require('../backgrounds/store.cjs')
@@ -20,6 +20,7 @@ module.exports = function (deps) {
   const { EFFORT_LEVELS_URL } = require('../shared/endpoints.cjs')
   const { TrayRow } = require('../tray/settings.cjs')
   const { readSaved, writeSaved } = require('../theme/selection.cjs')
+const { FOLLOW_ZONE, applyThemePicture, pictureForTheme } = require('../theme/backgrounds.cjs')
   const { importFailureFor, importMessage } = require('../update/client.cjs')
   const { WORKING_EFFECTS, WORKING_EFFECT_LABELS, WORKING_INTERVALS, WORKING_SHIMMER_LABELS, WORKING_SHIMMER_STYLES, readSavedWorking } = require('../working/constants.cjs')
 
@@ -204,6 +205,12 @@ function ThemeRow(props) {
     try {
       const applied = await applyTheme(id)
       if (applied) writeSaved(id)
+      // The theme names the wallpaper it brings, and a zone that follows the
+      // theme takes it. Painting is left to the store effect below, which fires
+      // on the change this makes — and does nothing when the name is the same.
+      if (applied && id !== '') {
+        setBackgrounds((current) => applyThemePicture(current, pictureForTheme(id, deps.themePicture(), images)))
+      }
       // A panel fill is built from the live surface colour, so the zones have to
       // be repainted whenever the palette under them changes.
       applyBackgroundsWhenReady(backgrounds)
@@ -211,11 +218,29 @@ function ThemeRow(props) {
     } catch (error) {
       setStatus(error.name === 'AbortError' ? 'idle' : 'failed')
     }
-  }, [backgrounds])
+  }, [backgrounds, images])
 
   /** Patch one field of the selected zone. The store and the picture follow below. */
   const updateZone = React.useCallback((patch) => {
     setBackgrounds((current) => ({ ...current, [zone]: { ...current[zone], ...patch } }))
+  }, [zone])
+
+  /**
+   * Choose a picture by hand, which pins the zone.
+   *
+   * A picture the user picked outranks the one the theme brings: the zone stops
+   * following, so the next theme switch leaves this choice alone. Rejoining is
+   * the 「跟随主题」 switch's job, not a side effect of choosing a wallpaper.
+   */
+  const choosePicture = React.useCallback((name) => {
+    setBackgrounds((current) => ({
+      ...current,
+      [zone]: {
+        ...current[zone],
+        name,
+        ...(zone === FOLLOW_ZONE ? { follow: false } : {}),
+      },
+    }))
   }, [zone])
 
   /*
@@ -240,7 +265,14 @@ function ThemeRow(props) {
       const stored = await uploadBackground(file)
       setImages(await listBackgrounds(signal))
       setBackgrounds((current) => (current[zone].name === was
-        ? { ...current, [zone]: { ...current[zone], name: stored } }
+        ? {
+            ...current,
+            [zone]: {
+              ...current[zone],
+              name: stored,
+              ...(zone === FOLLOW_ZONE ? { follow: false } : {}),
+            },
+          }
         : current))
     } catch (error) {
       setImportFailure(importFailureFor(error))
@@ -770,14 +802,39 @@ function ThemeRow(props) {
         h('div', { className: 'dct-row dct-sub' },
           h('div', { className: 'dct-text' },
             h('div', { className: 'dct-title' }, `${t('bgZone')} · ${t(active.labelKey)}`),
-            h('div', { className: 'dct-hint' }, noImage ? t('bgUnset') : config.name)),
+            h('div', { className: 'dct-hint' }, noImage ? t('bgUnset') : config.name),
+            // Only the whole-window zone follows the theme: a theme is one look,
+            // and a picture pinned on a single surface is a deliberate exception.
+            zone === FOLLOW_ZONE
+              ? h('label', { className: 'dct-follow', title: t('bgFollowTitle') },
+                  h('input', {
+                    type: 'checkbox',
+                    className: 'dct-follow-input',
+                    checked: config.follow !== false,
+                    disabled: busy,
+                    onChange: (event) => {
+                      const follow = event.target.checked
+                      setBackgrounds((current) => (follow
+                        ? {
+                            ...current,
+                            [zone]: {
+                              ...current[zone],
+                              follow: true,
+                              name: pictureForTheme(selected, deps.themePicture(), images),
+                            },
+                          }
+                        : { ...current, [zone]: { ...current[zone], follow: false } }))
+                    },
+                  }),
+                  h('span', null, t('bgFollow')))
+              : null),
           h('div', { className: 'dct-control dct-wrap' },
             h('select', {
               className: 'dct-select dct-image',
               value: config.name,
               disabled: busy,
               'aria-label': t('bgImage'),
-              onChange: (event) => updateZone({ name: event.target.value }),
+              onChange: (event) => choosePicture(event.target.value),
             },
             h('option', { value: '' }, t('bgNone')),
             images.map((name) => h('option', { key: name, value: name }, name))),
@@ -844,7 +901,7 @@ function ThemeRow(props) {
               type: 'button',
               className: 'dct-button dct-clear',
               disabled: noImage,
-              onClick: () => updateZone({ name: '' }),
+              onClick: () => choosePicture(''),
             }, t('bgClear')))))
 
   /* ─── Card 10: Desktop Tray ─── */

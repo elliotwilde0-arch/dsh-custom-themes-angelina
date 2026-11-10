@@ -17,6 +17,18 @@ module.exports = function (deps) {
  */
 const DARK_SCOPE = /data-ds-dark-theme|data-theme\s*=\s*["']?dark|prefers-color-scheme\s*:\s*dark/iu
 
+/**
+ * The picture a stylesheet names for itself: `/* @background: name.webp *\/`
+ *
+ * A theme carries its own look, and its wallpaper is part of that look. The
+ * settings page reads this marker and paints the picture through the zone
+ * model, so the opacity, blur and fit controls keep working on it instead of a
+ * bare CSS `background-image` bypassing them. A theme that names no picture
+ * leaves the window to the built-in surface, which is also how the seeded
+ * themes without a wallpaper behave.
+ */
+const PICTURE_DECLARATION = /\/\*\s*@background\s*:\s*([^\s*]+)\s*\*\//u
+
 /** One custom-property declaration, quoted values kept intact. */
 const TOKEN_DECLARATION = /(--[A-Za-z0-9_-]+)\s*:\s*((?:[^;{}"']|"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')+)/gu
 
@@ -277,6 +289,13 @@ let applySeq = 0
 /** Scheme a single-palette theme forced, or `null` when the theme adapts. */
 let appliedScheme = null
 
+/**
+ * Picture the applied theme named in its own stylesheet, or `''` when it named
+ * none. Read by the settings page when it decides which wallpaper a switch
+ * should paint; the picture itself belongs to the zone model, not to this layer.
+ */
+let declaredPicture = ''
+
 /** Notified when the applied theme is dropped outside this card's own select. */
 const themeChangeListeners = new Set()
 
@@ -322,12 +341,14 @@ async function applyTheme(id) {
   const seq = ++applySeq
   releaseOverrides()
   appliedScheme = null
+  declaredPicture = ''
   style.textContent = ''
   if (id === '') return true
   const response = await fetch(CSS_URL(id), { signal, cache: 'no-store' })
   if (!response.ok) return false
   const css = await response.text()
   if (seq !== applySeq) return false
+  declaredPicture = (css.match(PICTURE_DECLARATION) ?? [])[1] ?? ''
   const { light, dark } = parseTokenDeclarations(css)
   // A token declared in one palette only still has to reach both, or it would
   // be undefined in the other — the API takes a pair for every token.
@@ -376,5 +397,5 @@ async function applyTheme(id) {
 
   // Read through the binding rather than handing out its value: the disposer is installed by the
   // first apply, long after this object is built, so a snapshot here would be the no-op it replaced.
-  return { applyTheme, syncSelection, themeChangeListeners, releaseOverrides: () => releaseOverrides() }
+  return { applyTheme, picture: () => declaredPicture, syncSelection, themeChangeListeners, releaseOverrides: () => releaseOverrides() }
 }

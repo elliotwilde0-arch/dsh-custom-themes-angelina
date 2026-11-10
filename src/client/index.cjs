@@ -117,7 +117,8 @@ const { createEffortBridge } = require('./effort/bridge.cjs')
 const { findEffortRow, findEffortValueElement, findSeatEffort } = require('./effort/dom-probe.cjs')
 const { effortErrorText, effortLevelsRow, effortMessage } = require('./effort/messages.cjs')
 const { effortSliderEntry } = require('./effort/entry.cjs')
-const { readSavedBackgrounds } = require('./backgrounds/store.cjs')
+const { readSavedBackgrounds, writeSavedBackgrounds } = require('./backgrounds/store.cjs')
+const { applyThemePicture, pictureForTheme } = require('./theme/backgrounds.cjs')
 const { readSavedAppearance } = require('./appearance/constants.cjs')
 const { readSaved, writeSaved } = require('./theme/selection.cjs')
 const { workingEffectCss } = require('./working/constants.cjs')
@@ -258,23 +259,37 @@ module.exports = {
       setWorkingSettings: working.setWorkingSettings,
       signal,
       themeChangeListeners: theme.themeChangeListeners,
+      themePicture: theme.picture,
       uploadBackground,
     })
 
     // Boot: the saved theme, the pictures and the appearance choices all take effect
     // whether or not the settings page is ever opened.
     const saved = readSaved()
+    const savedBackgrounds = readSavedBackgrounds()
     if (saved !== '') {
       theme.applyTheme(saved).then((applied) => {
         if (!applied) {
           ctx.logger.warn('dsh-custom-theme: saved theme %s is missing', saved)
           writeSaved('')
+          backgrounds.applyBackgroundsWhenReady(savedBackgrounds)
+          return
         }
+        // The theme brings its own wallpaper: the following zone takes it, so a
+        // relaunch shows the same window the theme's last selection showed. The
+        // picture is only known once the host has listed the files it serves.
+        listBackgrounds(signal).then((names) => {
+          const settings = applyThemePicture(savedBackgrounds, pictureForTheme(saved, theme.picture(), names))
+          if (settings !== savedBackgrounds) writeSavedBackgrounds(settings)
+          backgrounds.applyBackgroundsWhenReady(settings)
+        }).catch(() => backgrounds.applyBackgroundsWhenReady(savedBackgrounds))
       }).catch((error) => {
         ctx.logger.warn('dsh-custom-theme: applying %s failed: %s', saved, error.message)
+        backgrounds.applyBackgroundsWhenReady(savedBackgrounds)
       })
+    } else {
+      backgrounds.applyBackgroundsWhenReady(savedBackgrounds)
     }
-    backgrounds.applyBackgroundsWhenReady(readSavedBackgrounds())
     // The line-spacing and stream-ink choices need no shell element to exist.
     appearance.applyAppearance(readSavedAppearance())
 

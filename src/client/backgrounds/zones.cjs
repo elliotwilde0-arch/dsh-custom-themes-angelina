@@ -116,10 +116,17 @@ const PANEL_OPACITY = {
   dock: 92,
 }
 
-/** Defaults for one zone, matching the Deeptop background model. */
+/**
+ * Defaults for one zone, matching the Deeptop background model.
+ *
+ * `follow` says whether the zone takes the picture the selected theme brings.
+ * Only `global` reads it — a theme is a whole-window look — so a picture pinned
+ * on any other zone is never touched by a theme switch.
+ */
 function defaultZoneConfig(zone) {
   return {
     name: '',
+    follow: true,
     opacity: 0.18,
     panelOpacity: PANEL_OPACITY[zone] ?? 100,
     blur: 0,
